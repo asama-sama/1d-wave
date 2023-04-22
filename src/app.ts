@@ -18,7 +18,7 @@ let t=0
 const animate = () => {
   requestAnimationFrame(animate)
   wave.render()
-  t+=0.01
+  t+=0.05
   wave.updateWave(t)
 }
 animate()

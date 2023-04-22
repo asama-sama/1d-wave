@@ -1,10 +1,19 @@
 import vertShader from '../shaders/vert.glsl'
 import fragShader from '../shaders/frag.glsl'
 
+type Uniforms = {
+  [key: string]: WebGLUniformLocation | null
+}
+
 export class Wave {
   static gl: WebGLRenderingContext;
   static vertexBuffer: WebGLBuffer;
-  constructor(private vertices: Float32Array) { }
+  static uniforms: Uniforms = {
+    xMin: null,
+    xMax: null,
+  }
+
+  constructor(private vertices: Float32Array, private xMin: number, private xMax: number) { }
   
   render() {
     Wave.gl.bindBuffer(Wave.gl.ARRAY_BUFFER, Wave.vertexBuffer)
@@ -14,6 +23,9 @@ export class Wave {
       Wave.gl.STATIC_DRAW
     )
 
+    Wave.gl.uniform1f(Wave.uniforms.xMin, this.xMin)
+    Wave.gl.uniform1f(Wave.uniforms.xMax, this.xMax)
+
     Wave.gl.drawArrays(Wave.gl.TRIANGLE_STRIP, 0, this.vertices.length/2)
   }
 
@@ -22,7 +34,7 @@ export class Wave {
     for (let i = 0; i < points; i++) {
       const x = this.vertices[i*4]
       const y = Math.sin(x + t)
-      this.vertices[i*4+1] = y
+      this.vertices[i*4+3] = y
     }
   }
 
@@ -51,6 +63,12 @@ export class Wave {
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
     gl.vertexAttribPointer(vertexLocation, 2, gl.FLOAT, false, 0, 0)
 
+    const xMinLocation = gl.getUniformLocation(program, 'xMin')
+    this.uniforms.xMin = xMinLocation
+
+    const xMaxLocation = gl.getUniformLocation(program, 'xMax')
+    this.uniforms.xMax = xMaxLocation
+
     gl.useProgram(program)
     Wave.gl = gl
   }
@@ -60,15 +78,15 @@ export class Wave {
     const s = (xMax - xMin) / n;
     const mp = (xMax + xMin) / 2;
     const l = xMax - xMin
-    const transform = (x: number) => (x - mp)/(l/2) // transform from [xMin, xMax] -> [-1, 1]
+    // const transform = (x: number) => (x - mp)/(l/2) // transform from [xMin, xMax] -> [-1, 1]
     let points: number[] = []
 
     for (let i = 0; i <= n; i++) {
       const x = s * i + xMin
       const y = Math.sin(x)
-      const xt = transform(x)
-      points = [...points,  xt, -1, xt, y] // y axis on wave followed by bottom for triangle strip
+      // const xt = transform(x)
+      points = [...points,  x, -1, x, y] // y axis on wave followed by bottom for triangle strip
     }
-    return new Wave(new Float32Array(points))
+    return new Wave(new Float32Array(points), xMin, xMax)
   }
 }
