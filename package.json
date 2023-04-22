@@ -2,11 +2,10 @@
   "name": "wave-1d",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "source": "src/index.html",
   "scripts": {
     "dev": "parcel",
-    "build": "parcel build",
+    "build": "parcel build src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -17,5 +16,11 @@
   },
   "dependencies": {
     "typescript": "^5.0.4"
+  },
+  "targets": {
+    "default": {
+      "distDir": "./docs",
+      "publicUrl": "./"
+    }
   }
 }
