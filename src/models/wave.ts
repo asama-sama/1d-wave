@@ -33,7 +33,7 @@ export class Wave {
     const points = this.vertices.length / 4
     for (let i = 0; i < points; i++) {
       const x = this.vertices[i*4]
-      const y = Math.sin(x + t)
+      const y = Wave.getHeightAtPoint(x, t)
       this.vertices[i*4+3] = y
     }
   }
@@ -83,10 +83,14 @@ export class Wave {
 
     for (let i = 0; i <= n; i++) {
       const x = s * i + xMin
-      const y = Math.sin(x)
+      const y = this.getHeightAtPoint(x, 0)
       // const xt = transform(x)
       points = [...points,  x, -1, x, y] // y axis on wave followed by bottom for triangle strip
     }
     return new Wave(new Float32Array(points), xMin, xMax)
+  }
+
+  static getHeightAtPoint = (x: number, t: number) => {
+    return Math.sin(x + t)/2 + 0.2
   }
 }
