@@ -1,0 +1,21 @@
+{
+  "name": "wave-1d",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "source": "src/index.html",
+  "scripts": {
+    "dev": "parcel",
+    "build": "parcel build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-glsl": "^2.8.3",
+    "parcel": "^2.8.3"
+  },
+  "dependencies": {
+    "typescript": "^5.0.4"
+  }
+}
