@@ -18,8 +18,6 @@ export class Wave {
   }
 
   static createProgram = (gl: WebGLRenderingContext) => {
-    console.log(vertShader)
-    console.log(fragShader)
     const vertexShader = gl.createShader(gl.VERTEX_SHADER)
     if (!vertexShader) throw new Error('no vertex shader found')
     gl.shaderSource(vertexShader, vertShader)

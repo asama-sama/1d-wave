@@ -37,12 +37,3 @@ const animate = () => {
   wave.render()
 }
 animate()
-
-/*
-  n =5
-  -1,-0.6,-0.2 ,0.2,0.6 ,1
-
-  s = 1 - (-1)/ n = 0.4
-  for (i=1 to n)
-    x = s * i + -1
-*/
